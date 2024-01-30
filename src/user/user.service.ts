@@ -9,9 +9,9 @@ export class UserService {
     private prisma: PrismaService
   ) {}
   create(createUserDto: CreateUserDto) {
-    return 'This action adds a new user';
+    return this.prisma.user.create({data: createUserDto});
   }
-
+  
   findAll() {
     return `This action returns all user`;
   }
@@ -25,6 +25,7 @@ export class UserService {
   }
 
   remove(id: number) {
-    return `This action removes a #${id} user`;
+    this.prisma.user.delete({where: {id: id}});
+    return "Deletado com sucesso"
   }
 }
