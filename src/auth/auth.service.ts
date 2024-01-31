@@ -1,4 +1,5 @@
 import { Injectable } from '@nestjs/common';
+import { JwtService } from '@nestjs/jwt';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { UserService } from 'src/user/user.service';
 
@@ -6,7 +7,8 @@ import { UserService } from 'src/user/user.service';
 export class AuthService {
     constructor(
         private readonly prisma : PrismaService,
-        private readonly userService: UserService,    
+        private readonly userService: UserService,
+        private readonly jwtService: JwtService    
     ){}
 
     async validateUser(email,senha){
@@ -18,7 +20,11 @@ export class AuthService {
         return {...user, password:undefined}
     }
 
-    login(user){
-        
+    login(user){ //Cria o JWT a partir do usuario na request
+        const payload = {sub: user.id, email:user.email}
+        const jwtToken = this.jwtService.sign({payload:payload, signOptions: {secret:process.env.JWT_SECRET, expiresIn: '1d'}})
+        return {
+            access_token: jwtToken
+        }
     }
 }
