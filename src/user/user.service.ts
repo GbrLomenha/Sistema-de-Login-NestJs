@@ -13,7 +13,7 @@ export class UserService {
   }
   
   findAll() {
-    return `This action returns all user`;
+    return this.prisma.user.findMany();
   }
 
   findOne(id: number) {
@@ -25,7 +25,7 @@ export class UserService {
   }
 
   remove(id: number) {
-    this.prisma.user.delete({where: {id: id}});
-    return "Deletado com sucesso"
+    return this.prisma.user.delete({where: {id: id}});
+
   }
 }
