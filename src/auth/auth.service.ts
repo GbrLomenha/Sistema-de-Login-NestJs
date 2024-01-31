@@ -15,6 +15,10 @@ export class AuthService {
         if(!user || user.password != senha){
             throw new Error('Credenciais inválidas')
         }
-        return true
+        return {...user, password:undefined}
+    }
+
+    login(user){
+        
     }
 }
